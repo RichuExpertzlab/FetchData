@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>Student selection</h2>
+    <form>
+        <label for="rollNumberListBox">Select Roll Number</label>
+        <select id="rollNumberListBox" onchange="updateStudentName()">
+            <option th:each="rollNumber :${rollNumbers}" th:value="${rollNumber}" th:text="${rollNumber}"></option>
+        </select>
+        <br>
+        <label for="studentName">Student Name</label>
+        <input type="text" id="studentName" readonly>
+    </form>
+    <script th:inline="javascript">
+        function updateStudentName() {
+            var rollNumber = document.getElementById("rollNumberListBox").value;
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', '/getStudentName?rollNumber=' + rollNumber, true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        document.getElementById("studentName").value = xhr.responseText;
+                    } else {
+                        console.error('Error fetching student name: ' + xhr.status);
+                    }
+                }
+            };
+            xhr.send();
+        }
+    </script>
+</body>
+</html>

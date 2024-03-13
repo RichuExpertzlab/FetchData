@@ -10,11 +10,12 @@
     <form>
         <label for="rollNumberListBox">Select Roll Number</label>
         <select id="rollNumberListBox" onchange="updateStudentName()">
+            <option value="" disabled selected>Select Roll Number</option> <!-- Placeholder option -->
             <option th:each="rollNumber :${rollNumbers}" th:value="${rollNumber}" th:text="${rollNumber}"></option>
         </select>
         <br>
         <label for="studentName">Student Name</label>
-        <input type="text" id="studentName" readonly>
+        <input type="text" id="studentName" readonly placeholder="Student Name">
     </form>
     <script th:inline="javascript">
         function updateStudentName() {
